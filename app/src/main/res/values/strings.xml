@@ -1,0 +1,39 @@
+<resources>
+    <!-- Common -->
+    <string name="app_name">CompuSnow</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="generic_error">Something went wrong. Please try again.</string>
+    <string name="email_error">Please enter a valid email address.</string>
+    <string name="cancel">Cancel</string>
+    <string name="try_again">Try again</string>
+    <string name="ok">OK</string>
+    <string name="sign_out">Sign out</string>
+    <string name="sign_out_msg">Are you sure you want to sign out?</string>
+    <string name="recovery_email_failed">filed email</string>
+    <string name="auth_error">Authentication error</string>
+    <string name="sign_up_failed">Sign up failed</string>
+    <string name="email_already_in_use_error">The email address is already in use by another account.</string>
+    <string name="weak_password_error">This password is too weak.</string>
+    <string name="invalid_email_error">The email address is badly formatted.</string>
+
+    <!-- LoginScreen -->
+    <string name="sign_in">Sign in</string>
+    <string name="login_details">Enter your login details</string>
+    <string name="forgot_password">Forgot password? Click to get a recovery email</string>
+    <string name="recovery_email_sent">Check your inbox for the recovery email.</string>
+    <string name="empty_password_error">Password cannot be empty.</string>
+
+    <!-- SignUpScreen -->
+    <string name="create_account">Create account</string>
+    <string name="password_error">Your password should be at least six characters long and include one digit, one lowercase letter, and one uppercase letter.</string>
+    <string name="password_match_error">Passwords do not match.</string>
+
+    <!-- FCM -->
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="request_notification_permission">Request permission</string>
+    <string name="notification_permission_title">Notification permission</string>
+    <string name="notification_permission_description">The notification permission is important for this app. Please grant the permission.</string>
+    <string name="notification_permission_settings">The notification permission is important for this app. Please navigate to your device settings and enable notifications for Make it So.</string>
+</resources>

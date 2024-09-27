@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "8361688527",
+    "project_id": "bdmolviles",
+    "storage_bucket": "bdmolviles.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8361688527:android:c92c3ad3e2af130606e6ba",
+        "android_client_info": {
+          "package_name": "com.example.compusnow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUk_u8CUjfPcx5Lqb1kIri-yQXtIH5mu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
