@@ -16,6 +16,7 @@
     <!-- Nuevos colores para el diseño del proyecto -->
     <color name="primary_dark_blue">#0F244D</color>
     <color name="secondary_light_blue">#2A60B0</color>
+    <color name="shadow_blue">#14274E</color>
     <color name="accent_orange">#FFA726</color>
     <color name="button_dark_blue">#1B3F7D</color>
     <color name="text_gray">#2E2E2E</color>

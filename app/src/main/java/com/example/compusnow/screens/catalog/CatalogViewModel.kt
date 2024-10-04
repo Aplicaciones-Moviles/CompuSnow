@@ -1,59 +1,64 @@
 package com.example.compusnow.screens.catalog
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.compusnow.CATALOG_SCREEN
 import com.example.compusnow.LOGIN_SCREEN
+import com.example.compusnow.PRODUCT_SCREEN
+import com.example.compusnow.model.Product
 import com.example.compusnow.model.service.AccountService
+import com.example.compusnow.model.service.StorageService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import android.util.Log // Añade esta importación para usar logs
 
 @HiltViewModel
 class CatalogViewModel @Inject constructor(
-    private val accountService: AccountService // Inyectamos el servicio de cuentas
+    private val accountService: AccountService,
+    private val storageService: StorageService
 ) : ViewModel() {
 
-    // Lista mutable para los ítems del catálogo
-    val catalogItems = mutableStateListOf<String>()
-
-    // Inicialización: cargar los ítems cuando se inicializa el ViewModel
-    init {
-        loadCatalogItems()
-    }
-
-    // Función para cargar los ítems del catálogo (puede reemplazarse con datos de API o base de datos)
-    private fun loadCatalogItems() {
-        // Cargar datos de prueba (puede reemplazarse con datos reales)
-        catalogItems.addAll(
-            listOf(
-                "Ventana de aluminio",
-                "Puerta de vidrio",
-                "Closet de melamina",
-                "Escritorio de oficina"
-            )
-        )
-    }
-
-    // Método para agregar nuevos ítems al catálogo
-    fun addItem(item: String) {
-        if (item.isNotBlank()) {
-            catalogItems.add(item)
-        }
-    }
-
-    // Método para eliminar un ítem del catálogo
-    fun removeItem(item: String) {
-        catalogItems.remove(item)
-    }
+    // Estado que mantiene los productos almacenados en Firestore
+    val products: StateFlow<List<Product>> = storageService.products
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     // Método para cerrar sesión
     fun signOut(openAndPopUp: (String, String) -> Unit) {
         viewModelScope.launch {
-            accountService.signOut() // Llamada suspendida dentro de una corutina
-            openAndPopUp(LOGIN_SCREEN, "CatalogScreen") // Navega al login después de cerrar sesión
+            try {
+                accountService.signOut()
+                openAndPopUp(LOGIN_SCREEN, CATALOG_SCREEN)
+            } catch (e: Exception) {
+                Log.e("CatalogViewModel", "Error al cerrar sesión: ${e.message}")
+            }
         }
     }
 
+    // Método para eliminar un producto
+    fun deleteProduct(productId: String) {
+        viewModelScope.launch {
+            try {
+                Log.d("CatalogViewModel", "Eliminando producto con ID: $productId")
+                storageService.delete(productId)
+            } catch (e: Exception) {
+                Log.e("CatalogViewModel", "Error al eliminar producto: ${e.message}")
+            }
+        }
+    }
+
+    // Método para actualizar un producto
+    fun updateProduct(openAndPopUp: (String, String) -> Unit, productId: String) {
+        // Añade un log para verificar si se está pasando el productId correctamente
+        Log.d("CatalogViewModel", "Navegando a la pantalla de producto para actualizar el ID: $productId")
+
+        // Navegar a la pantalla de producto con el productId
+        openAndPopUp(PRODUCT_SCREEN, productId)
+    }
+    suspend fun getProductById(productId: String): Product? {
+        return storageService.getProduct(productId)
+    }
 }

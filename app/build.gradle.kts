@@ -79,6 +79,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
     implementation("com.google.accompanist:accompanist-permissions:0.30.1")
     implementation("com.google.dagger:hilt-android:2.47")
+    implementation ("androidx.compose.foundation:foundation:1.2.0")
+    implementation ("androidx.compose.material:material-icons-extended:1.5.1")
+    implementation(libs.firebase.storage.ktx)
     ksp("com.google.dagger:hilt-compiler:2.47")
 
 
@@ -88,9 +91,11 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
+    implementation ("com.google.firebase:firebase-storage")
     implementation("com.google.firebase:firebase-perf")
     implementation("com.google.firebase:firebase-config")
     implementation("com.google.firebase:firebase-messaging")
+    implementation("io.coil-kt:coil-compose:2.0.0")
 
     //Test
     testImplementation("junit:junit:4.+")

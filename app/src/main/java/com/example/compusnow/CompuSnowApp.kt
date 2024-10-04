@@ -20,14 +20,24 @@ import androidx.navigation.compose.rememberNavController
 import com.example.compusnow.common.snackbar.SnackbarManager
 import com.example.compusnow.screens.catalog.CatalogScreen
 import com.example.compusnow.screens.login.LoginScreen
+import com.example.compusnow.screens.product.ProductScreen
+import com.example.compusnow.screens.productDetail.ProductDetailScreen
 import com.example.compusnow.screens.sing_up.SignUpScreen
 import com.example.compusnow.screens.splash.SplashScreen
 import com.example.compusnow.theme.CompuSnowTheme
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
 @ExperimentalMaterialApi
 fun CompuSnowApp() {
+    val firestore = FirebaseFirestore.getInstance()
+    val settings = FirebaseFirestoreSettings.Builder()
+        .setPersistenceEnabled(false) // Deshabilitar persistencia
+        .build()
+
+    firestore.firestoreSettings = settings
     CompuSnowTheme {
         Surface(color = MaterialTheme.colors.background) {
             val appState = rememberAppState()
@@ -86,6 +96,12 @@ fun NavGraphBuilder.compuSnowGraph(appState: CompuSnowAppState) {
         CatalogScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) }) }
     composable(SIGN_UP_SCREEN) {
         SignUpScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) }) }
-
+    composable(PRODUCT_SCREEN) {
+        ProductScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
+    }
+    composable("$PRODUCT_DETAIL_SCREEN/{productId}") { backStackEntry ->
+        val productId = backStackEntry.arguments?.getString("productId") ?: ""
+        ProductDetailScreen(productId = productId, openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
+    }
 }
 
