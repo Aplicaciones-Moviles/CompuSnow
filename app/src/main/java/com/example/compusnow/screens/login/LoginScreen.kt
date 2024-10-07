@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Brightness4
+import androidx.compose.material.icons.filled.Brightness7
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
@@ -18,12 +20,14 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.compusnow.CompuSnowAppState
 import com.example.compusnow.LOGIN_SCREEN
 import com.example.compusnow.SIGN_UP_SCREEN
 
 @Composable
 fun LoginScreen(
-    openAndPopUp: (String, String) -> Unit
+    openAndPopUp: (String, String) -> Unit,
+    appState: CompuSnowAppState
 ) {
     val viewModel: LoginViewModel = hiltViewModel()
     val uiState by viewModel.uiState
@@ -53,6 +57,19 @@ fun LoginScreen(
                 path = path,
                 color = Color(0xFF0F244D), // Color primary_dark_blue
                 style = Fill
+            )
+        }
+        // Botón de cambio de tema (oscuro/claro)
+        IconButton(
+            onClick = { appState.toggleTheme() }, // Cambia el tema usando el estado
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(16.dp)
+        ) {
+            Icon(
+                imageVector = if (appState.isDarkTheme) Icons.Filled.Brightness4 else Icons.Filled.Brightness7, // Ícono según el tema
+                contentDescription = "Cambiar Tema",
+                tint = Color.White
             )
         }
 

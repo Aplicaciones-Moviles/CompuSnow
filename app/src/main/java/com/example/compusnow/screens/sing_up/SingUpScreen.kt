@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Brightness4
+import androidx.compose.material.icons.filled.Brightness7
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
@@ -18,12 +20,14 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.compusnow.CompuSnowAppState
 import com.example.compusnow.SIGN_UP_SCREEN
 import com.example.compusnow.LOGIN_SCREEN
 
 @Composable
 fun SignUpScreen(
-    openAndPopUp: (String, String) -> Unit
+    openAndPopUp: (String, String) -> Unit,
+    appState: CompuSnowAppState // Se pasa el appState para controlar el cambio de tema
 ) {
     val viewModel: SignUpViewModel = hiltViewModel()
     val uiState by viewModel.uiState
@@ -63,6 +67,21 @@ fun SignUpScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Sección superior con el botón para alternar el tema
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End, // Alinea el botón a la derecha
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Botón para alternar el tema
+                IconButton(onClick = { appState.toggleTheme() }) {
+                    Icon(
+                        imageVector = if (appState.isDarkTheme) Icons.Filled.Brightness4 else Icons.Filled.Brightness7,
+                        contentDescription = "Cambiar Tema"
+                    )
+                }
+            }
+
             // Título
             Text(
                 text = "Crear Cuenta",

@@ -17,6 +17,12 @@
     <string name="email_already_in_use_error">The email address is already in use by another account.</string>
     <string name="weak_password_error">This password is too weak.</string>
     <string name="invalid_email_error">The email address is badly formatted.</string>
+    <string name="sign_in_failed">Sign in failed</string>
+    <string name="user_not_found_error">There is no user record corresponding to this identifier.</string>
+    <string name="wrong_password_error">The password is invalid or the user does not have a password.</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="empty_fields_error">Please fill all the fields</string>"
+
 
     <!-- LoginScreen -->
     <string name="sign_in">Sign in</string>

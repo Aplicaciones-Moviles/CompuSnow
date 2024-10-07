@@ -19,9 +19,6 @@ import kotlinx.coroutines.GlobalScope
 class ProductViewModel @Inject constructor(
     private val storageService: StorageService
 ) : ViewModel() {
-
-    var currentProduct = mutableStateOf<Product?>(null)
-
     // Función para agregar un producto con imagen
     fun addProduct(product: Product, imageUri: Uri) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
@@ -46,37 +43,6 @@ class ProductViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.e("ProductViewModel", "Error al agregar producto: ${e.message}")
-            }
-        }
-    }
-
-    // Función para cargar los detalles del producto actual para actualizar
-    fun loadProduct(productId: String) {
-        Log.d("ProductViewModel", "Cargando producto con ID: $productId")
-
-        viewModelScope.launch {
-            try {
-                val product = storageService.getProduct(productId)
-                currentProduct.value = product
-                product?.let {
-                    Log.d("ProductViewModel", "Producto cargado: ${it.nombre}, Precio: ${it.precio}")
-                } ?: Log.e("ProductViewModel", "Error: Producto no encontrado con ID: $productId")
-            } catch (e: Exception) {
-                Log.e("ProductViewModel", "Error al cargar el producto: ${e.message}")
-            }
-        }
-    }
-
-    // Función para actualizar un producto existente
-    fun updateProduct(product: Product) {
-        Log.d("ProductViewModel", "Actualizando producto: ${product.nombre}, ID: ${product.id}")
-
-        viewModelScope.launch {
-            try {
-                storageService.update(product)
-                Log.d("ProductViewModel", "Producto actualizado correctamente")
-            } catch (e: Exception) {
-                Log.e("ProductViewModel", "Error al actualizar producto: ${e.message}")
             }
         }
     }

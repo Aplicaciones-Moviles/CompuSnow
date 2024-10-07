@@ -1,13 +1,9 @@
 package com.example.compusnow
 
 import android.content.res.Resources
-import android.os.Build
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -22,6 +18,7 @@ import com.example.compusnow.screens.catalog.CatalogScreen
 import com.example.compusnow.screens.login.LoginScreen
 import com.example.compusnow.screens.product.ProductScreen
 import com.example.compusnow.screens.productDetail.ProductDetailScreen
+import com.example.compusnow.screens.productEdit.ProductEditScreen
 import com.example.compusnow.screens.sing_up.SignUpScreen
 import com.example.compusnow.screens.splash.SplashScreen
 import com.example.compusnow.theme.CompuSnowTheme
@@ -38,10 +35,13 @@ fun CompuSnowApp() {
         .build()
 
     firestore.firestoreSettings = settings
-    CompuSnowTheme {
-        Surface(color = MaterialTheme.colors.background) {
-            val appState = rememberAppState()
 
+    // Obtener el estado de la aplicación (incluyendo el tema actual)
+    val appState = rememberAppState()
+
+    // Cambiar el tema basado en `isDarkTheme`
+    CompuSnowTheme(isDarkTheme = appState.isDarkTheme) {
+        Surface(color = MaterialTheme.colors.background) {
             Scaffold(
                 snackbarHost = {
                     SnackbarHost(
@@ -91,17 +91,36 @@ fun NavGraphBuilder.compuSnowGraph(appState: CompuSnowAppState) {
         SplashScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
     }
     composable(LOGIN_SCREEN) {
-        LoginScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) }) }
+        LoginScreen(appState = appState, openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
+    }
     composable(CATALOG_SCREEN) {
-        CatalogScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) }) }
+        CatalogScreen(appState = appState, openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
+    }
     composable(SIGN_UP_SCREEN) {
-        SignUpScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) }) }
+        SignUpScreen(appState = appState, openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
+    }
     composable(PRODUCT_SCREEN) {
-        ProductScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
+        ProductScreen(
+            appState = appState,
+            openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
+            navController = appState.navController
+        )
     }
     composable("$PRODUCT_DETAIL_SCREEN/{productId}") { backStackEntry ->
         val productId = backStackEntry.arguments?.getString("productId") ?: ""
-        ProductDetailScreen(productId = productId, openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
+        ProductDetailScreen(
+            productId = productId,
+            appState = appState,
+            openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) },
+            navController = appState.navController
+        )
+    }
+    composable("$PRODUCT_EDIT_SCREEN/{productId}") { backStackEntry ->
+        val productId = backStackEntry.arguments?.getString("productId") ?: ""
+        ProductEditScreen(
+            productId = productId,
+            appState = appState,
+            openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) }
+        )
     }
 }
-

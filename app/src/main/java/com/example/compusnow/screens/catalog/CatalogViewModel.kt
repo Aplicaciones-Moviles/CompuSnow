@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import android.util.Log // Añade esta importación para usar logs
+import com.example.compusnow.PRODUCT_EDIT_SCREEN
 
 @HiltViewModel
 class CatalogViewModel @Inject constructor(
@@ -37,28 +38,11 @@ class CatalogViewModel @Inject constructor(
             }
         }
     }
-
-    // Método para eliminar un producto
-    fun deleteProduct(productId: String) {
-        viewModelScope.launch {
-            try {
-                Log.d("CatalogViewModel", "Eliminando producto con ID: $productId")
-                storageService.delete(productId)
-            } catch (e: Exception) {
-                Log.e("CatalogViewModel", "Error al eliminar producto: ${e.message}")
-            }
-        }
-    }
-
-    // Método para actualizar un producto
-    fun updateProduct(openAndPopUp: (String, String) -> Unit, productId: String) {
-        // Añade un log para verificar si se está pasando el productId correctamente
-        Log.d("CatalogViewModel", "Navegando a la pantalla de producto para actualizar el ID: $productId")
-
-        // Navegar a la pantalla de producto con el productId
-        openAndPopUp(PRODUCT_SCREEN, productId)
-    }
     suspend fun getProductById(productId: String): Product? {
         return storageService.getProduct(productId)
+    }
+    // Método para navegar a la pantalla de edición de productos
+    fun navigateToEditProduct(productId: String, openAndPopUp: (String, String) -> Unit) {
+        openAndPopUp("$PRODUCT_EDIT_SCREEN/$productId", CATALOG_SCREEN)
     }
 }
