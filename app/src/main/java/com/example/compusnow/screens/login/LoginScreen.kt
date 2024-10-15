@@ -65,6 +65,33 @@ fun LoginScreen(
                 style = Fill
             )
         }
+        // Botón de cambio de tema (oscuro/claro)
+        IconButton(
+            onClick = { appState.toggleTheme() }, // Cambia el tema usando el estado
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(16.dp)
+        ) {
+            Icon(
+                imageVector = if (appState.isDarkTheme) Icons.Filled.Brightness4 else Icons.Filled.Brightness7, // Ícono según el tema
+                contentDescription = "Cambiar Tema",
+                tint = Color.White
+            )
+        }
+
+        // Botón de cambio de tema (arriba a la derecha, igual que en el Login)
+        IconButton(
+            onClick = { appState.toggleTheme() },
+            modifier = Modifier
+                .align(Alignment.TopEnd) // Posicionado en la esquina superior derecha
+                .padding(16.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Brightness4,
+                contentDescription = "Cambiar Tema",
+                tint = if (!appState.isDarkTheme) Color.Black else MaterialTheme.colors.onPrimary // Cambia a negro en modo claro
+            )
+        }
 
         // Botón de cambio de tema (arriba a la derecha, igual que en el Login)
         IconButton(

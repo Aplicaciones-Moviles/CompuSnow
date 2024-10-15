@@ -87,6 +87,21 @@ fun SignUpScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Sección superior con el botón para alternar el tema
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End, // Alinea el botón a la derecha
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Botón para alternar el tema
+                IconButton(onClick = { appState.toggleTheme() }) {
+                    Icon(
+                        imageVector = if (appState.isDarkTheme) Icons.Filled.Brightness4 else Icons.Filled.Brightness7,
+                        contentDescription = "Cambiar Tema"
+                    )
+                }
+            }
+
             // Título
             Text(
                 text = "Crear Cuenta",
