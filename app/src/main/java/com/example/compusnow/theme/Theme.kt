@@ -1,42 +1,48 @@
 package com.example.compusnow.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.Modifier
+import androidx.compose.foundation.background
 
 // Definir los colores para el modo oscuro
 private val DarkColorPalette = darkColors(
-    primary = Color(0xFF0F244D),  // primary_dark_blue
-    secondary = Color(0xFF2A60B0),  // secondary_light_blue
-    background = Color(0xFF0F244D),  // Fondo similar al primario
-    surface = Color(0xFF1B3F7D),  // button_dark_blue
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onBackground = Color.White,
-    onSurface = Color.White,
+    primary = Color(0xFF1B3F7D),  // Azul oscuro para el botón
+    secondary = Color(0xFF0B2249),
+    background = Color(0xFF2A60B0),  // Fondo azul oscuro
+    surface = Color(0xFF14274E),   // Azul más claro para cuadros, tarjetas y diálogos
+    onPrimary = Color.White,      // Texto blanco sobre el botón azul oscuro
+    error = Color(0xFFD32F2F),    // Rojo claro para errores
+    onError = Color.White,        // Texto negro sobre botones de error
+    onBackground = Color.White,   // Texto blanco en fondo
+    onSurface = Color.White       // Texto blanco sobre cuadros, tarjetas y diálogos
 )
 
 // Definir los colores para el modo claro
 private val LightColorPalette = lightColors(
-    primary = Color(0xFF2A60B0),  // secondary_light_blue
-    secondary = Color(0xFFFFA726),  // accent_orange
-    background = Color.White,
-    surface = Color(0xFF1B3F7D),  // button_dark_blue
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color(0xFF2E2E2E),  // text_gray
-    onSurface = Color.White
+    primary = Color(0xFF173868),  // Azul claro para el botón
+    background = Color(0xFFE0F7FA),     // Fondo blanco
+    surface = Color(0xF2224D99),  // Azul oscuro para cuadros, tarjetas y diálogos
+    onPrimary = Color.White,      // Texto blanco sobre el botón azul claro
+    error = Color(0xFFD32F2F),    // Rojo para errores
+    onError = Color.White,        // Texto blanco sobre botones de error
+    onBackground = Color.Black,   // Texto negro en fondo blanco
+    onSurface = Color.White       // Texto blanco sobre cuadros, tarjetas y diálogos
 )
 
 @Composable
 fun CompuSnowTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    isDarkTheme: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val colors = if (darkTheme) {
+    val colors = if (isDarkTheme) {
         DarkColorPalette
     } else {
         LightColorPalette
@@ -44,8 +50,10 @@ fun CompuSnowTheme(
 
     MaterialTheme(
         colors = colors,
-        typography = Typography,  // Asegúrate de tener este archivo Typography correctamente configurado
-        shapes = Shapes,  // Asegúrate de tener las formas configuradas en un archivo Shapes.kt
-        content = content
-    )
+        typography = Typography,
+        shapes = Shapes
+    ) {
+        content()
+    }
 }
+

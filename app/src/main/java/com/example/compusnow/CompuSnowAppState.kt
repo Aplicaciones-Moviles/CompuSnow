@@ -2,13 +2,15 @@ package com.example.compusnow
 
 import android.content.res.Resources
 import androidx.compose.material.ScaffoldState
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.*
 import androidx.navigation.NavHostController
 import com.example.compusnow.common.snackbar.SnackbarManager
 import com.example.compusnow.common.snackbar.SnackbarMessage.Companion.toMessage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import com.google.firebase.auth.FirebaseAuth
+
 
 @Stable
 class CompuSnowAppState(
@@ -16,8 +18,14 @@ class CompuSnowAppState(
     val navController: NavHostController,
     private val snackbarManager: SnackbarManager,
     private val resources: Resources,
-    coroutineScope: CoroutineScope
+    coroutineScope: CoroutineScope,
+    var userId: String
 ) {
+    // Mutable state to track the current theme (dark or light)
+    var isDarkTheme by mutableStateOf(false)
+        private set
+
+    // Initialize coroutine to handle snackbar messages
     init {
         coroutineScope.launch {
             snackbarManager.snackbarMessages.filterNotNull().collect { snackbarMessage ->
@@ -28,14 +36,22 @@ class CompuSnowAppState(
         }
     }
 
+    // Function to toggle between dark and light themes
+    fun toggleTheme() {
+        isDarkTheme = !isDarkTheme
+    }
+
+    // Function to pop up from the back stack
     fun popUp() {
         navController.popBackStack()
     }
 
+    // Function to navigate to a route
     fun navigate(route: String) {
         navController.navigate(route) { launchSingleTop = true }
     }
 
+    // Function to navigate and pop up
     fun navigateAndPopUp(route: String, popUp: String) {
         navController.navigate(route) {
             launchSingleTop = true
@@ -43,6 +59,7 @@ class CompuSnowAppState(
         }
     }
 
+    // Function to clear the back stack and navigate to a new route
     fun clearAndNavigate(route: String) {
         navController.navigate(route) {
             launchSingleTop = true
